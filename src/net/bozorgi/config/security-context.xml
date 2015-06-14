@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<sec:authentication-manager>
+		<sec:authentication-provider>
+			<sec:user-service>
+				<sec:user name="masoud" authorities="admin" password="letmein" />
+			</sec:user-service>
+		</sec:authentication-provider>
+		<sec:authentication-provider>
+			<sec:jdbc-user-service data-source-ref="dataSource"
+				authorities-by-username-query="select * from authorities where binary username = ?"
+				users-by-username-query="select * from users where binary username = ?" id="jdbcUserService" />
+			<sec:password-encoder ref="passwordEncoder"></sec:password-encoder>
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+
+
+	<sec:http use-expressions="true">
+
+		<sec:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
+
+		<sec:intercept-url pattern="/createoffer" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/docreate" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/offercreated" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/" access="permitAll" />
+
+		<sec:intercept-url pattern="/denied" access="permitAll" />
+		
+		<sec:intercept-url pattern="/loggedout" access="permitAll" />
+
+		<sec:intercept-url pattern="/newaccount" access="permitAll" />
+		<sec:intercept-url pattern="/createaccount" access="permitAll" />
+		<sec:intercept-url pattern="/accountcreated" access="permitAll" />
+
+		<sec:intercept-url pattern="/offers" access="permitAll" />
+		<sec:intercept-url pattern="/resources/**" access="permitAll" />
+
+		<sec:intercept-url pattern="/login" access="permitAll" />
+
+		<sec:intercept-url pattern="/**" access="denyAll" />
+		<sec:form-login login-page="/login" authentication-failure-url="/login?error=true" />
+		<sec:logout logout-success-url="/loggedout" />
+		<sec:access-denied-handler error-page="/denied" />
+		<sec:remember-me key="offersAppKey" user-service-ref="jdbcUserService" />
+	</sec:http>
+	<sec:global-method-security secured-annotations="enabled"></sec:global-method-security>
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"></bean>
+</beans>
