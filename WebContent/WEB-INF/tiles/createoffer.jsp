@@ -11,16 +11,6 @@
 <sf:form method="post" action="${pageContext.request.contextPath}/docreate" commandName="offers">
 	<table class="formtable">
 		<tr>
-			<td class="label">Name:</td>
-			<td><sf:input class="control" path="name" name="name" type="text" /> <sf:errors path="name" cssClass="error"></sf:errors>
-			</td>
-		</tr>
-		<tr>
-			<td class="label">Email:</td>
-			<td><sf:input class="control" path="email" name="email" type="text" /> <sf:errors path="email" cssClass="error"></sf:errors>
-			</td>
-		</tr>
-		<tr>
 			<td class="label">Your offer:</td>
 			<td><sf:textarea class="control" name="text" path="text" rows="10" cols="100"></sf:textarea> <sf:errors
 					path="text" cssClass="error"></sf:errors></td>

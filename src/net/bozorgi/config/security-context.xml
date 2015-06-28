@@ -12,9 +12,10 @@
 			</sec:user-service>
 		</sec:authentication-provider>
 		<sec:authentication-provider>
-			<sec:jdbc-user-service data-source-ref="dataSource"
-				authorities-by-username-query="select * from authorities where binary username = ?"
-				users-by-username-query="select * from users where binary username = ?" id="jdbcUserService" />
+			<sec:jdbc-user-service data-source-ref="dataSource" 
+				authorities-by-username-query="select username, authority from users where binary username = ?"
+				users-by-username-query="select username, password, enabled from users where binary username = ?" 
+				id="jdbcUserService" />
 			<sec:password-encoder ref="passwordEncoder"></sec:password-encoder>
 		</sec:authentication-provider>
 	</sec:authentication-manager>
@@ -30,7 +31,7 @@
 		<sec:intercept-url pattern="/" access="permitAll" />
 
 		<sec:intercept-url pattern="/denied" access="permitAll" />
-		
+
 		<sec:intercept-url pattern="/loggedout" access="permitAll" />
 
 		<sec:intercept-url pattern="/newaccount" access="permitAll" />

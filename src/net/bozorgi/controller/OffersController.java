@@ -1,5 +1,6 @@
 package net.bozorgi.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -44,7 +45,7 @@ public class OffersController {
 	}
 	
 	@RequestMapping(value="/docreate", method=RequestMethod.POST)
-	public String doCreate(Model model, @Valid Offers offer, BindingResult result) {
+	public String doCreate(Model model, @Valid Offers offer, BindingResult result, Principal principal) {
 		
 		
 		if(result.hasErrors()) {
@@ -52,6 +53,10 @@ public class OffersController {
 		}
 		
 		System.out.println("doCreate method in OffersController");
+		
+		String username = principal.getName();
+		offer.getUser().setUsername(username);
+		
 		offersService.create(offer);
 		
 		return "offercreated";

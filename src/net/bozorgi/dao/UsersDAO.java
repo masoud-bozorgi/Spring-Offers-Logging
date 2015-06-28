@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsersDAO {
 
 	private NamedParameterJdbcTemplate jdbc;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -28,31 +28,33 @@ public class UsersDAO {
 
 	@Transactional
 	public boolean createUser(User user) {
-		
-		//BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(user);
+
+		// BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(user);
 		MapSqlParameterSource params = new MapSqlParameterSource();
-		
+
 		params.addValue("username", user.getUsername());
 		params.addValue("password", passwordEncoder.encode(user.getPassword()));
 		params.addValue("email", user.getEmail());
+		params.addValue("name", user.getName());
 		params.addValue("enabled", user.isEnabled());
 		params.addValue("authority", user.getAuthority());
-		
-		
-		jdbc.update("insert into users(username, password, email, enabled) values (:username, :password, :email, :enabled)", params);
-		
+
 		System.out.println("createUser from UsersDAO class is run.");
-		return jdbc.update("insert into authorities(username, authority) values (:username, :authority)", params) == 1;
+
+		return jdbc.update("insert into users(username, name, password, email, enabled, authority) values (:username, :name, :password, :email, :enabled, :authority)", params) == 1;
+
 	}
 
 	public boolean exists(String username) {
-		
-		return jdbc.queryForObject("select count(*) from users where username=:username", new MapSqlParameterSource("username", username), Integer.class) > 0;
+
+		return jdbc.queryForObject("select count(*) from users where username=:username", new MapSqlParameterSource("username", username),
+				Integer.class) > 0;
 	}
 
 	public List<User> getAllUsers() {
-		
-		return jdbc.query("select * from users, authorities where users.username=authorities.username", BeanPropertyRowMapper.newInstance(User.class));
+
+		return jdbc
+				.query("select * from users", BeanPropertyRowMapper.newInstance(User.class));
 	}
 
 }

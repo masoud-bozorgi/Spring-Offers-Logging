@@ -1,39 +1,27 @@
 package net.bozorgi.dao;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import net.bozorgi.validation.ValidEmail;
 
 public class Offers {
 
 	private int id;
-	
-	@Size(min=10, max=100, message="size must be between 10 and 100")
-	private String name;
-	
-	@NotNull
-	//@Pattern(regexp=".*\\@.*\\..*", message="It does not appear to be a valid email address")
-	@ValidEmail(min=6, message="This email address is not valid.")
-	private String email;
-	
-	@Size(min=20, max=255, message="Text must be between 20 and 255 characters.")
+	private User user;
+
+	@Size(min = 20, max = 255, message = "Text must be between 20 and 255 characters.")
 	private String text;
 
 	public Offers() {
+		this.user = new User();
 	}
-	
-	public Offers(String name, String email, String text) {
-		this.name = name;
-		this.email = email;
+
+	public Offers(User user, String text) {
+		this.user = user;
 		this.text = text;
 	}
-	
-	public Offers(int id, String name, String email, String text) {
+
+	public Offers(int id, User user, String text) {
 		this.id = id;
-		this.name = name;
-		this.email = email;
+		this.user = user;
 		this.text = text;
 	}
 
@@ -45,20 +33,12 @@ public class Offers {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public User getUser() {
+		return user;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getText() {
@@ -69,10 +49,44 @@ public class Offers {
 		this.text = text;
 	}
 
+	public String getUsername() {
+		return user.getUsername();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Offers other = (Offers) obj;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
-		return "offer [id=" + id + ", name=" + name + ", email=" + email
-				+ ", text=" + text + "]";
+		return "Offers [id=" + id + ", user=" + user + ", text=" + text + "]";
 	}
 
 }
