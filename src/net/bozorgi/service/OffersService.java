@@ -22,12 +22,53 @@ public class OffersService {
 	public List<Offers> getCurrent() {
 		return offersDAO.getOffers();
 	}
-	
-	@Secured({"ROLE_USER", "ROLE_ADMIN"})
+
+	@Secured({ "ROLE_USER", "ROLE_ADMIN" })
 	public void create(Offers offer) {
 		offersDAO.createOffer(offer);
 		System.out.println("create method in OffersService");
+
+	}
+
+	public boolean hasOffer(String name) {
+		if (name == null) {
+			return false;
+		}
+
+		List<Offers> offers = offersDAO.getOffers(name);
+
+		if (offers.size() == 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public Offers getOffer(String username) {
+		if (username == null) {
+			System.out.println("In OffersService username is null!");
+			return null;
+		}
+
+		List<Offers> offers = offersDAO.getOffers(username);
+
+		if (offers.size() == 0) {
+			System.out.println("In OffersService offers.size is 0!");
+			return null;
+		}
 		
+		System.out.println("offers.get(0) is going to run.");
+		System.out.println(offers.get(1));
+		return offers.get(0);
+	}
+
+	public void saveOrUpdate(Offers offer) {
+		if (offer.getId() != 0) {
+			offersDAO.updateOffer(offer);
+		} else {
+			offersDAO.createOffer(offer);
+		}
+
 	}
 
 }

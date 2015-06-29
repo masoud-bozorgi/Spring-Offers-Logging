@@ -3,12 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<h3>Login with your Username and Password.</h3>
-<c:if test="${param.error != null}">
+
+<%-- <c:if test="${param.error != null}">
 	<p class="error">Login failed. Check that your username and password are correct.</p>
-</c:if>
+</c:if> --%>
 
 <sf:form method="post" action="${pageContext.request.contextPath}/docreate" commandName="offers">
+	<sf:input type="hidden" name="id" path="id" />
+
 	<table class="formtable">
 		<tr>
 			<td class="label">Your offer:</td>
