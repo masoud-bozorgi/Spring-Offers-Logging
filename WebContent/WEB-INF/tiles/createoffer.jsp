@@ -8,6 +8,27 @@
 	<p class="error">Login failed. Check that your username and password are correct.</p>
 </c:if> --%>
 
+<script type="text/javascript">
+<!--
+
+function onDeleteClick(event) {
+	
+	var doDelete = confirm("Are you sure you want to delete this offer?");
+	
+	if(doDelete == false) {
+		event.preventDefault();
+	}
+}
+
+function onReady() {
+	$("#delete").click(onDeleteClick);
+}
+
+$(document).ready(onReady);
+//-->
+</script>
+
+
 <sf:form method="post" action="${pageContext.request.contextPath}/docreate" commandName="offers">
 	<sf:input type="hidden" name="id" path="id" />
 
@@ -21,6 +42,16 @@
 			<td class="label"></td>
 			<td><input class="control" value="Create offer" type="submit" /></td>
 		</tr>
+		<c:if test="${offer.id != 0}">
+			<tr>
+				<td class="label"></td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="label"></td>
+				<td><input id="delete" class="delete control" name="delete" value="Delete offer" type="submit" /></td>
+			</tr>
+		</c:if>
 	</table>
 </sf:form>
 

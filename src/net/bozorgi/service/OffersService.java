@@ -58,17 +58,24 @@ public class OffersService {
 		}
 		
 		System.out.println("offers.get(0) is going to run.");
-		System.out.println(offers.get(1));
+		System.out.println(offers.get(0));
 		return offers.get(0);
 	}
 
 	public void saveOrUpdate(Offers offer) {
 		if (offer.getId() != 0) {
 			offersDAO.updateOffer(offer);
+			System.out.println("OffersService class: offer.getId() != 0, and offersDAO.updateOffer(offer) should run.");
 		} else {
+			System.out.println("OffersService class: offer.getId() == 0, and offersDAO.createOffer(offer) should run. ");
 			offersDAO.createOffer(offer);
 		}
 
+	}
+
+	public void delete(int id) {
+		offersDAO.delete(id);
+		
 	}
 
 }

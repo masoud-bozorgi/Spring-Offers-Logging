@@ -26,6 +26,7 @@
 		<sec:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
 
 		<sec:intercept-url pattern="/createoffer" access="isAuthenticated()" />
+		<sec:intercept-url pattern="/offerdeleted" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/docreate" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/offercreated" access="isAuthenticated()" />
 		<sec:intercept-url pattern="/" access="permitAll" />

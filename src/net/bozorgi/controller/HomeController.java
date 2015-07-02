@@ -33,6 +33,8 @@ public class HomeController {
 		}
 
 		model.addAttribute("hasOffer", hasOffer);
+		
+		System.out.println("HomeController is run and home is returned");
 		return "home";
 
 	}
